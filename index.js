@@ -25,3 +25,23 @@ app.get("/tweets", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+app.use(express.json()); // Add this near the top to enable JSON POST body
+
+app.post("/tweets", async (req, res) => {
+  try {
+    const tweet = req.body;
+    if (!tweet || !tweet.text) {
+      return res.status(400).json({ error: "Missing tweet content" });
+    }
+
+    await client.connect();
+    const db = client.db("twitter");
+    const result = await db.collection("tweets").insertOne(tweet);
+    res.json({ insertedId: result.insertedId });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
+  }
+});
+

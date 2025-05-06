@@ -15,5 +15,27 @@
       document.getElementById("output").textContent = JSON.stringify(data, null, 2);
     }
   </script>
+  <h2>Insert a Tweet</h2>
+  <input type="text" id="tweetText" placeholder="Tweet text">
+  <input type="text" id="tweetUser" placeholder="User">
+  <button onclick="insertTweet()">Submit Tweet</button>
+  <pre id="insertResult"></pre>
+  
+  <script>
+    async function insertTweet() {
+      const text = document.getElementById("tweetText").value;
+      const user = document.getElementById("tweetUser").value;
+  
+      const response = await fetch("http://localhost:3000/tweets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, user })
+      });
+  
+      const result = await response.json();
+      document.getElementById("insertResult").textContent = JSON.stringify(result, null, 2);
+    }
+  </script>
+  
 </body>
 </html>
