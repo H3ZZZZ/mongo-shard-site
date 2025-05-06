@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tweet Viewer</title>
+</head>
+<body>
+  <h1>First 10 Tweets</h1>
+  <button onclick="loadTweets()">Load Tweets</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function loadTweets() {
+      const res = await fetch("http://localhost:3000/tweets");
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
